@@ -22,7 +22,7 @@
         },
         "networkInterfaceName": {
             "type": "string",
-            "defaultValue": "ZVMnic"
+            "defaultValue": "zvmnic"
         },
         "networkSecurityGroupName": {
             "type": "string",
