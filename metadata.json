@@ -1,7 +1,7 @@
 {
-  "itemDisplayName": "Deploy Splunk Enterprise",
-  "description": "Deploy Splunk Enterprise as a single instance or a distributed cluster with load balancer to quickly and easily get started with Splunk in Azure.  To deploy on Azure Government, go to the Azure quick start repository via the Browse on GitHub button.",
-  "summary": "Deploy Splunk Enterprise as single instance or distributed cluster.",
+  "itemDisplayName": "Zerto Virtual Replication 6.0",
+  "description": "Deploy Zerto Virtual Replication 6.0 as a single instance with a single Network, Subnet and NSG along with a Standard storage account.",
+  "summary": "Deploy Zerto Virtual Replication 6.0",
   "githubUsername": "pcradduck",
-  "dateUpdated": "2018-04-04"
+  "dateUpdated": "2018-04-13"
 }

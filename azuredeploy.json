@@ -1,232 +1,217 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-      "location": {
-          "type": "string"
-      },
-      "virtualMachineName": {
-          "type": "string"
-      },
-      "virtualMachineSize": {
-          "type": "string",
-          "defaultValue": "Standard_D3_v2"
-      },
-      "adminUsername": {
-          "type": "string"
-      },
-      "virtualNetworkName": {
-          "type": "string",
-          "defaultValue": "Zerto_NET"
-      },
-      "networkInterfaceName": {
-          "type": "string",
-          "defaultValue": "ZVM-Nic"
-      },
-      "networkSecurityGroupName": {
-          "type": "string",
-          "defaultValue": "ZVM-NSG"
-      },
-      "adminPassword": {
-          "type": "securestring"
-      },
-      "availabilitySetName": {
-          "type": "string",
-          "defaultValue": "ZVM-AS"
-      },
-      "availabilitySetPlatformFaultDomainCount": {
-          "type": "string",
-          "defaultValue": "3"
-      },
-      "availabilitySetPlatformUpdateDomainCount": {
-          "type": "string",
-          "defaultValue": "5"
-      },
-      "addressPrefix": {
-          "type": "string",
-          "defaultValue": "10.0.0.0/16"
-      },
-      "subnetName": {
-          "type": "string",
-          "defaultValue": "ZVM_vNET"
-      },
-      "subnetPrefix": {
-          "type": "string",
-          "defaultValue": "10.0.1.0/24"
-      },
-      "publicIpAddressName": {
-          "type": "string",
-          "defaultValue": "ZVM-PublicIP"
-      },
-      "publicIpAddressType": {
-          "type": "string",
-          "defaultValue": "Dynamic"
-      },
-      "publicIpAddressSku": {
-          "type": "string",
-          "defaultValue": "Basic"
-      }
-  },
-  "variables": {
-      "vnetId": "[resourceId('Zerto','Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-      "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
-  },
-  "resources": [
-      {
-          "name": "[parameters('virtualMachineName')]",
-          "type": "Microsoft.Compute/virtualMachines",
-          "apiVersion": "2017-03-30",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-              "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]",
-              "[concat('Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
-          ],
-          "properties": {
-              "osProfile": {
-                  "computerName": "[parameters('virtualMachineName')]",
-                  "adminUsername": "[parameters('adminUsername')]",
-                  "adminPassword": "[parameters('adminPassword')]",
-                  "windowsConfiguration": {
-                      "provisionVmAgent": "true"
-                  }
-              },
-              "hardwareProfile": {
-                  "vmSize": "[parameters('virtualMachineSize')]"
-              },
-              "storageProfile": {
-                  "imageReference": {
-                      "publisher": "zerto",
-                      "offer": "zerto-cloud-appliance-50",
-                      "sku": "zerto60ga",
-                      "version": "latest"
-                  },
-                  "osDisk": {
-                      "createOption": "fromImage",
-                      "managedDisk": {
-                          "storageAccountType": "Standard_LRS"
-                      }
-                  },
-                  "dataDisks": []
-              },
-              "networkProfile": {
-                  "networkInterfaces": [
-                      {
-                          "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
-                      }
-                  ]
-              },
-              "availabilitySet": {
-                  "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
-              }
-          },
-          "plan": {
-              "name": "zerto60ga",
-              "publisher": "zerto",
-              "product": "zerto-cloud-appliance-50"
-          }
-      },
-      {
-          "name": "[parameters('availabilitySetName')]",
-          "type": "Microsoft.Compute/availabilitySets",
-          "apiVersion": "2016-04-30-preview",
-          "location": "[parameters('location')]",
-          "properties": {
-              "platformFaultDomainCount": "[parameters('availabilitySetPlatformFaultDomainCount')]",
-              "platformUpdateDomainCount": "[parameters('availabilitySetPlatformUpdateDomainCount')]",
-              "managed": true
-          }
-      },
-      {
-          "name": "[parameters('virtualNetworkName')]",
-          "type": "Microsoft.Network/virtualNetworks",
-          "apiVersion": "2017-08-01",
-          "location": "[parameters('location')]",
-          "properties": {
-              "addressSpace": {
-                  "addressPrefixes": [
-                      "[parameters('addressPrefix')]"
-                  ]
-              },
-              "subnets": [
-                  {
-                      "name": "[parameters('subnetName')]",
-                      "properties": {
-                          "addressPrefix": "[parameters('subnetPrefix')]"
-                      }
-                  }
-              ]
-          }
-      },
-      {
-          "name": "[parameters('networkInterfaceName')]",
-          "type": "Microsoft.Network/networkInterfaces",
-          "apiVersion": "2016-09-01",
-          "location": "[parameters('location')]",
-          "dependsOn": [
-              "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
-              "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]",
-              "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
-          ],
-          "properties": {
-              "ipConfigurations": [
-                  {
-                      "name": "ipconfig1",
-                      "properties": {
-                          "subnet": {
-                              "id": "[variables('subnetRef')]"
-                          },
-                          "privateIPAllocationMethod": "Dynamic",
-                          "publicIpAddress": {
-                              "id": "[resourceId('Zerto','Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
-                          }
-                      }
-                  }
-              ],
-              "networkSecurityGroup": {
-                  "id": "[resourceId('Zerto', 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
-              }
-          }
-      },
-      {
-          "name": "[parameters('publicIpAddressName')]",
-          "type": "Microsoft.Network/publicIpAddresses",
-          "apiVersion": "2017-08-01",
-          "location": "[parameters('location')]",
-          "properties": {
-              "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
-          },
-          "sku": {
-              "name": "[parameters('publicIpAddressSku')]"
-          }
-      },
-      {
-          "name": "[parameters('networkSecurityGroupName')]",
-          "type": "Microsoft.Network/networkSecurityGroups",
-          "apiVersion": "2017-06-01",
-          "location": "[parameters('location')]",
-          "properties": {
-              "securityRules": [
-                  {
-                      "name": "default-allow-rdp",
-                      "properties": {
-                          "priority": 1000,
-                          "protocol": "TCP",
-                          "access": "Allow",
-                          "direction": "Inbound",
-                          "sourceAddressPrefix": "*",
-                          "sourcePortRange": "*",
-                          "destinationAddressPrefix": "*",
-                          "destinationPortRange": "3389"
-                      }
-                  }
-              ]
-          }
-      }
-  ],
-  "outputs": {
-      "adminUsername": {
-          "type": "string",
-          "value": "[parameters('adminUsername')]"
-      }
-  }
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string"
+        },
+        "virtualMachineName": {
+            "type": "string",
+            "defaultValue": "zertovirtualmanager"
+        },
+        "virtualMachineSize": {
+            "type": "string",
+            "defaultValue": "Standard_D3_v2"
+        },
+        "adminUsername": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string",
+            "defaultValue": "ZertoNET"
+        },
+        "networkInterfaceName": {
+            "type": "string",
+            "defaultValue": "ZVMnic"
+        },
+        "networkSecurityGroupName": {
+            "type": "string",
+            "defaultValue": "zvmnsg"
+        },
+        "adminPassword": {
+            "type": "securestring"
+        },
+        "availabilitySetName": {
+            "type": "string",
+            "defaultValue": "zvmAS"
+        },
+        "addressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16"
+        },
+        "subnetName": {
+            "type": "string",
+            "defaultValue": "zvmvNet"
+        },
+        "subnetPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.1.0/24"
+        },
+        "publicIpAddressName": {
+            "type": "string",
+            "defaultValue": "zvm-publicIP"
+        }
+    },
+    "variables": {
+        "vnetId": "[resourceId('zerto','Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
+    },
+    "resources": [
+        {
+            "name": "[parameters('virtualMachineName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2017-03-30",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]",
+                "[concat('Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
+            ],
+            "properties": {
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "provisionVmAgent": "true"
+                    }
+                },
+                "hardwareProfile": {
+                    "vmSize": "[parameters('virtualMachineSize')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "zerto",
+                        "offer": "zerto-cloud-appliance-50",
+                        "sku": "zerto60ga",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
+                }
+            },
+            "plan": {
+                "name": "zerto60ga",
+                "publisher": "zerto",
+                "product": "zerto-cloud-appliance-50"
+            }
+        },
+        {
+            "name": "[parameters('availabilitySetName')]",
+            "type": "Microsoft.Compute/availabilitySets",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[parameters('location')]",
+            "properties": {
+                "platformFaultDomainCount": 3,
+                "platformUpdateDomainCount": 5,
+                "managed": true
+            }
+        },
+        {
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2017-08-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnetPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('networkInterfaceName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2016-09-01",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId('zerto','Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[resourceId('zerto', 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+                }
+            }
+        },
+        {
+            "name": "[parameters('publicIpAddressName')]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2017-08-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            },
+            "sku": {
+                "name": "Basic"
+            }
+        },
+        {
+            "name": "[parameters('networkSecurityGroupName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2017-06-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-rdp",
+                        "properties": {
+                            "priority": 1000,
+                            "protocol": "Tcp",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "3389"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {
+        "adminUsername": {
+            "type": "string",
+            "value": "[parameters('adminUsername')]"
+        }
+    }
 }
