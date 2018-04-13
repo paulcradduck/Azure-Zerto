@@ -9,49 +9,62 @@
           "type": "string"
       },
       "virtualMachineSize": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "Standard_D3_v2"
       },
       "adminUsername": {
           "type": "string"
       },
       "virtualNetworkName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "Zerto_NET"
       },
       "networkInterfaceName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "ZVM-Nic"
       },
       "networkSecurityGroupName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "ZVM-NSG"
       },
       "adminPassword": {
           "type": "securestring"
       },
       "availabilitySetName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "ZVM-AS"
       },
       "availabilitySetPlatformFaultDomainCount": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "3"
       },
       "availabilitySetPlatformUpdateDomainCount": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "5"
       },
       "addressPrefix": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "10.0.0.0/16"
       },
       "subnetName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "ZVM_vNET"
       },
       "subnetPrefix": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "10.0.1.0/24"
       },
       "publicIpAddressName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "ZVM-PublicIP"
       },
       "publicIpAddressType": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "Dynamic"
       },
       "publicIpAddressSku": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "Basic"
       }
   },
   "variables": {
