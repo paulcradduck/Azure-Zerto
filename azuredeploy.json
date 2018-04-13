@@ -53,7 +53,7 @@
         }
     },
     "variables": {
-        "vnetId": "[resourceId('zerto','Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "vnetId": "[resourceId('Microsoft.Network/virtualnetworks', variables('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
     },
     "resources": [
