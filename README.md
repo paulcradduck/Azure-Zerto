@@ -1,5 +1,5 @@
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpaulcradduck%2FSplunk-Azure%2Fmaster%2Fazuredeploy.json)
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpaulcradduck%2FAzure-Zerto%2Fmaster%2Fazuredeploy.json)
 
 This template deploys a single Zerto Appliance along with two subnets and one NSG. Once the deployment is complete, you will need to finish the Zerto Virtual Replication 6.0 setup and link it to your secondary site.
 
