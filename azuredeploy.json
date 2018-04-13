@@ -7,7 +7,7 @@
         },
         "virtualMachineName": {
             "type": "string",
-            "defaultValue": "zertovirtualmanager"
+            "defaultValue": "Azurezvm"
         },
         "virtualMachineSize": {
             "type": "string",
