@@ -8,19 +8,17 @@ Below is the list of template parameters:
 | Name   | Required | Description |
 |:--- |:--- |:---|
 | location | :heavy_check_mark: | Location where Azure resources will be created |
-| storageAccountType | | Storage account type which determines data redundancy and underlying drive type. Defaults to `Standard_LRS` |
 | adminUsername | :heavy_check_mark: | Admin username for the Zerto Appliance |
 | adminPassword | :heavy_check_mark: | Admin password for the Zerto Appliance |
-| virtualNetworkNewOrExisting | | Identifies whether to use new or existing Virtual Network. Allowed values: `new` (Default), `existing` 
 | virtualNetworkName | :heavy_check_mark: | Name of the virtual network to be used |
-| virtualNetworkAddressPrefix | | Virtual network address CIDR |
-| subnet1Name | | Subnet for the Search Head |
-| subnet2Name | | Subnet for the Indexers |
-| subnet1Prefix | | Search Head subnet CIDR |
-| subnet2Prefix | | Indexer subnet CIDR |
-| subnet1StartAddress | | Search Head subnet start address |
-| subnet2StartAddress | | Indexer subnet start address |
-| publicIPName | | Name of the Search Head public IP address. Default: splunksh-publicip |
+| virtualNetworkAddressPrefix | :heavy_check_mark: | Virtual network address CIDR |
+| subnet1Name | :heavy_check_mark: | Subnet for the Zerto Virtual Appliance |
+| subnet2Name | :heavy_check_mark: | Subnet for VMs to be recovered into |
+| subnet1Prefix |:heavy_check_mark: | Zerto Virtual Appliance Head subnet CIDR |
+| subnet2Prefix |:heavy_check_mark: | Recovery subnet CIDR |
+| subnet1StartAddress | :heavy_check_mark: | Zerto Virtual Appliance subnet start address |
+| subnet2StartAddress | :heavy_check_mark: | Recovery subnet start address |
+| publicIPName | :heavy_check_mark: | Name of the Zerto Virtual Appliance public IP address. Default: zvm-publicIp |
 
 
 

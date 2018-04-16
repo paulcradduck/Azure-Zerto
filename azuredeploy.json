@@ -35,7 +35,7 @@
             "type": "string",
             "defaultValue": "zvmAS"
         },
-        "addressPrefix": {
+        "address1Prefix": {
             "type": "string",
             "defaultValue": "10.0.0.0/16"
         },
@@ -43,9 +43,13 @@
             "type": "string",
             "defaultValue": "zvmvNet"
         },
-        "subnetPrefix": {
+        "subnet1Prefix": {
             "type": "string",
             "defaultValue": "10.0.1.0/24"
+        },
+        "subnet2Prefix": {
+            "type": "string",
+            "defaultValue": "10.0.2.0/24"
         },
         "publicIpAddressName": {
             "type": "string",
@@ -129,14 +133,35 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "[parameters('addressPrefix')]"
+                        "[parameters('address1Prefix')]"
                     ]
                 },
                 "subnets": [
                     {
                         "name": "[parameters('subnetName')]",
                         "properties": {
-                            "addressPrefix": "[parameters('subnetPrefix')]"
+                            "addressPrefix": "[parameters('subne1tPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2017-08-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('address1Prefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet2Prefix')]"
                         }
                     }
                 ]
