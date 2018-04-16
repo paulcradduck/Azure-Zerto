@@ -9,7 +9,7 @@
             "type": "string",
             "defaultValue": "azurezvm",
             "metadata": {
-                "description": "The Name for the Zerto VM"
+                "description": "The Name for the Zerto VM, please keep it lower case"
             }
         },
         "virtualMachineSize": {
@@ -27,15 +27,17 @@
         },
         "virtualNetworkName": {
             "type": "string",
-            "defaultValue": "zertonet"
+            "defaultValue": "zertonet",
+            "metadata": {
+                "description": "Name for the Virual Network"
+            }
         },
         "networkSecurityGroupName": {
             "type": "string",
-            "defaultValue": "zvmnsg"
-        },
-        "availabilitySetName": {
-            "type": "string",
-            "defaultValue": "zvmas"
+            "defaultValue": "zvmnsg",
+            "metadata": {
+                "description": "Name for the Network Security Group being used for the ZVM"
+            }
         },
         "address1Prefix": {
             "type": "string",
@@ -86,6 +88,7 @@
         "subnet1Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet1Name'))]",
         "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]",
         "networkInterfaceName": "[concat(parameters('virtualMachineName'), '-nic')]",
+        "availabilitySetName": "[concat(parameters('virtualMachineName'), '-asg')]"
     },
     "resources": [
         {
@@ -120,7 +123,7 @@
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]",
-                "[concat('Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
+                "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
             ],
             "properties": {
                 "osProfile": {
@@ -157,7 +160,7 @@
                     ]
                 },
                 "availabilitySet": {
-                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
                 }
             },
             "plan": {
@@ -167,7 +170,7 @@
             }
         },
         {
-            "name": "[parameters('availabilitySetName')]",
+            "name": "[variables('availabilitySetName')]",
             "type": "Microsoft.Compute/availabilitySets",
             "apiVersion": "2016-04-30-preview",
             "location": "[parameters('location')]",
@@ -230,7 +233,7 @@
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[resourceId('zerto', 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+                    "id": "[resourceId('zerto', 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
                 }
             }
         },
