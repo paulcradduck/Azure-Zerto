@@ -39,15 +39,19 @@
             "type": "string",
             "defaultValue": "10.0.0.0/16"
         },
-        "subnetName": {
+        "Subnet1Name": {
             "type": "string",
             "defaultValue": "zvmvNet"
         },
-        "subnet1Prefix": {
+        "Subnet2Name": {
+            "type": "string",
+            "defaultValue": "recoveryvNet"
+        },
+        "Subnet1Prefix": {
             "type": "string",
             "defaultValue": "10.0.1.0/24"
         },
-        "subnet2Prefix": {
+        "Subnet2Prefix": {
             "type": "string",
             "defaultValue": "10.0.2.0/24"
         },
@@ -138,7 +142,7 @@
                 },
                 "subnets": [
                     {
-                        "name": "[parameters('subnetName')]",
+                        "name": "[parameters('subnet1Name')]",
                         "properties": {
                             "addressPrefix": "[parameters('subne1tPrefix')]"
                         }
@@ -159,7 +163,7 @@
                 },
                 "subnets": [
                     {
-                        "name": "[parameters('subnetName')]",
+                        "name": "[parameters('subnet2Name')]",
                         "properties": {
                             "addressPrefix": "[parameters('subnet2Prefix')]"
                         }

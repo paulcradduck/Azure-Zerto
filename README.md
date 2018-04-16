@@ -16,8 +16,6 @@ Below is the list of template parameters:
 | subnet2Name | :heavy_check_mark: | Subnet for VMs to be recovered into |
 | subnet1Prefix |:heavy_check_mark: | Zerto Virtual Appliance Head subnet CIDR |
 | subnet2Prefix |:heavy_check_mark: | Recovery subnet CIDR |
-| subnet1StartAddress | :heavy_check_mark: | Zerto Virtual Appliance subnet start address |
-| subnet2StartAddress | :heavy_check_mark: | Recovery subnet start address |
 | publicIPName | :heavy_check_mark: | Name of the Zerto Virtual Appliance public IP address. Default: zvm-publicIp |
 
 
