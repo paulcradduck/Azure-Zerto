@@ -233,7 +233,7 @@
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[resourceId('zerto', 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+                    "id": "[resourceId('zerto', 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
                 }
             }
         },
