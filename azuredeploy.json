@@ -145,7 +145,7 @@
                     {
                         "name": "[parameters('subnet1Name')]",
                         "properties": {
-                            "addressPrefix": "[parameters('subne1tPrefix')]"
+                            "addressPrefix": "[parameters('subnet1Prefix')]"
                         }
                     },
                     {
