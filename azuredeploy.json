@@ -32,13 +32,6 @@
                 "description": "Name for the Virual Network"
             }
         },
-        "networkSecurityGroupName": {
-            "type": "string",
-            "defaultValue": "zvmnsg",
-            "metadata": {
-                "description": "Name for the Network Security Group being used for the ZVM"
-            }
-        },
         "address1Prefix": {
             "type": "string",
             "defaultValue": "10.0.0.0/16"
@@ -88,7 +81,8 @@
         "subnet1Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet1Name'))]",
         "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]",
         "networkInterfaceName": "[concat(parameters('virtualMachineName'), '-nic')]",
-        "availabilitySetName": "[concat(parameters('virtualMachineName'), '-as')]"
+        "availabilitySetName": "[concat(parameters('virtualMachineName'), '-as')]",
+        "networkSecurityGroupName": "[concat(parameters('virtualMachineName'), '-asg')]"
     },
     "resources": [
         {
@@ -215,7 +209,7 @@
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]",
-                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -233,7 +227,7 @@
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[resourceId('zerto', 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+                    "id": "[resourceId('zerto', 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
                 }
             }
         },
@@ -250,7 +244,7 @@
             }
         },
         {
-            "name": "[parameters('networkSecurityGroupName')]",
+            "name": "[variables('networkSecurityGroupName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2017-06-01",
             "location": "[parameters('location')]",
