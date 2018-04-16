@@ -82,7 +82,7 @@
         "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]",
         "networkInterfaceName": "[concat(parameters('virtualMachineName'), '-nic')]",
         "availabilitySetName": "[concat(parameters('virtualMachineName'), '-as')]",
-        "networkSecurityGroupName": "[concat(parameters('virtualMachineName'), '-asg')]"
+        "networkSecurityGroupName": "[concat(parameters('virtualMachineName'), '-nsg')]"
     },
     "resources": [
         {
