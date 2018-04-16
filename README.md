@@ -16,6 +16,7 @@ Below is the list of template parameters:
 | subnet1Prefix |:heavy_check_mark: | Zerto Virtual Appliance Head subnet CIDR |
 | subnet2Prefix |:heavy_check_mark: | Recovery subnet CIDR |
 | publicIPName | :heavy_check_mark: | Name of the Zerto Virtual Appliance public IP address. Default: zvm-publicIp |
+| SourceIP | | This is the IP address that will be allowed to access the Zerto Appliance over the internet via RDP on 3389 |
 
 
 
