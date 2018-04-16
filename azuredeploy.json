@@ -84,7 +84,8 @@
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualnetworks', parameters('virtualNetworkName'))]",
         "subnet1Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet1Name'))]",
-        "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]"
+        "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]",
+        "networkInterfaceName": "[concat(parameters('virtualMachineName'), '-nic')]",
     },
     "resources": [
         {
@@ -118,7 +119,7 @@
             "apiVersion": "2017-03-30",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]",
                 "[concat('Microsoft.Compute/availabilitySets/', parameters('availabilitySetName'))]"
             ],
             "properties": {
@@ -151,7 +152,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
                         }
                     ]
                 },
@@ -204,7 +205,7 @@
             }
         },
         {
-            "name": "[concat(parameters('virtualMachineName'), '-nic')]",
+            "name": "[variables('networkInterfaceName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2016-09-01",
             "location": "[parameters('location')]",
@@ -246,7 +247,7 @@
             }
         },
         {
-            "name": "[concat(parameters('virtualMachineName'), '-nsg')]",
+            "name": "[parameters('networkSecurityGroupName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2017-06-01",
             "location": "[parameters('location')]",
