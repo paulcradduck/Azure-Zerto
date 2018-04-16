@@ -148,21 +148,6 @@
                             "addressPrefix": "[parameters('subne1tPrefix')]"
                         }
                     }
-                ]
-            }
-        },
-        {
-            "name": "[parameters('virtualNetworkName')]",
-            "type": "Microsoft.Network/virtualNetworks",
-            "apiVersion": "2017-08-01",
-            "location": "[parameters('location')]",
-            "properties": {
-                "addressSpace": {
-                    "addressPrefixes": [
-                        "[parameters('address1Prefix')]"
-                    ]
-                },
-                "subnets": [
                     {
                         "name": "[parameters('subnet2Name')]",
                         "properties": {
