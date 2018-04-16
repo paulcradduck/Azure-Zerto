@@ -63,7 +63,7 @@
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualnetworks', parameters('virtualNetworkName'))]",
         "subnet1Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet1Name'))]",
-        "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]",
+        "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]"
     },
     "resources": [
         {
@@ -147,7 +147,7 @@
                         "properties": {
                             "addressPrefix": "[parameters('subne1tPrefix')]"
                         }
-                    }
+                    },
                     {
                         "name": "[parameters('subnet2Name')]",
                         "properties": {
