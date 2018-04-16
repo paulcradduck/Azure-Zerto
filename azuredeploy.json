@@ -7,11 +7,17 @@
         },
         "virtualMachineName": {
             "type": "string",
-            "defaultValue": "Azurezvm"
+            "defaultValue": "Azurezvm",
+            "metadata": {
+                "description": "The Name for the Zerto VM"
+            }
         },
         "virtualMachineSize": {
             "type": "string",
-            "defaultValue": "Standard_D3_v2"
+            "defaultValue": "Standard_D3_v2",
+            "metadata": {
+                "description": "The szie for the Zerto VM, reccommended size Standard_D3_v2"
+            }
         },
         "adminUsername": {
             "type": "string"
@@ -22,10 +28,6 @@
         "virtualNetworkName": {
             "type": "string",
             "defaultValue": "zertonet"
-        },
-        "networkInterfaceName": {
-            "type": "string",
-            "defaultValue": "zvmnic"
         },
         "networkSecurityGroupName": {
             "type": "string",
@@ -61,7 +63,10 @@
         },
         "sourceip": {
             "type": "string",
-            "defaultValue": "64.134.191.105"
+            "defaultValue": "*",
+            "metadata": {
+                "description": "IP address allowed to RDP into the ZVM, * for any"
+            }            
         },
         "storagename": {
             "type": "string",
@@ -199,7 +204,7 @@
             }
         },
         {
-            "name": "[parameters('networkInterfaceName')]",
+            "name": "[concat(parameters('virtualMachineName'), '-nic')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2016-09-01",
             "location": "[parameters('location')]",
@@ -241,7 +246,7 @@
             }
         },
         {
-            "name": "[parameters('networkSecurityGroupName')]",
+            "name": "[concat(parameters('virtualMachineName'), '-nsg')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2017-06-01",
             "location": "[parameters('location')]",
