@@ -7,7 +7,7 @@
         },
         "virtualMachineName": {
             "type": "string",
-            "defaultValue": "Azurezvm",
+            "defaultValue": "azurezvm",
             "metadata": {
                 "description": "The Name for the Zerto VM"
             }
