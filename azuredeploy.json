@@ -16,6 +16,9 @@
         "adminUsername": {
             "type": "string"
         },
+        "adminPassword": {
+            "type": "securestring"
+        },
         "virtualNetworkName": {
             "type": "string",
             "defaultValue": "ZertoNET"
@@ -27,9 +30,6 @@
         "networkSecurityGroupName": {
             "type": "string",
             "defaultValue": "zvmnsg"
-        },
-        "adminPassword": {
-            "type": "securestring"
         },
         "availabilitySetName": {
             "type": "string",
@@ -62,7 +62,8 @@
     },
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualnetworks', parameters('virtualNetworkName'))]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
+        "subnet1Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet1Name'))]",
+        "subnet2Ref": "[concat(variables('vnetId'), '/subnets/', parameters('subnet2Name'))]",
     },
     "resources": [
         {
@@ -187,7 +188,7 @@
                         "name": "ipconfig1",
                         "properties": {
                             "subnet": {
-                                "id": "[variables('subnetRef')]"
+                                "id": "[variables('subnet1Ref')]"
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
