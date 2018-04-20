@@ -210,7 +210,7 @@
                 "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]",
                 "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
-                "[concat('Microsoft.Storage/storageAccounts',/', parameters('storagename'))]"
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storagename'))]"
             ],
             "properties": {
                 "ipConfigurations": [
