@@ -69,7 +69,7 @@
         },
        "accountType": {
             "type": "string",
-            "defaultValue": "Standard_RAGRS"
+            "defaultValue": "Standard_LRS"
         },
         "storagekind": {
             "type": "string",
