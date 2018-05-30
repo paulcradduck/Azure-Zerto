@@ -16,7 +16,7 @@
             "type": "string",
             "defaultValue": "Standard_D3_v2",
             "metadata": {
-                "description": "The szie for the Zerto VM, reccommended size Standard_D3_v2"
+                "description": "The size for the Zerto VM, reccommended size Standard_D3_v2"
             }
         },
         "adminUsername": {
